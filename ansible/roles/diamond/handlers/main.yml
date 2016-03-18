@@ -1,0 +1,5 @@
+- name: restart diamond
+  service: name=diamond state=restarted
+
+- name: update systemd
+  command: /usr/bin/systemctl daemon-reload

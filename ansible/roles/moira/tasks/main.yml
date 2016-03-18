@@ -1,0 +1,13 @@
+- name: Create directories
+  file: path={{ item }} state=directory
+  with_items:
+    - /etc/moira
+    - "{{ moira_logs }}"
+     
+- name: Copy moira config
+  template: src=config.yml.j2 dest=/etc/moira/config.yml
+
+- include: web.yml
+- include: worker.yml
+- include: cache.yml
+- include: notifier.yml

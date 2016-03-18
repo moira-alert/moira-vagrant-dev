@@ -1,0 +1,38 @@
+- name: Moira Notifier create directories
+  file: path={{ item }} state=directory recurse=yes owner=vagrant group=vagrant
+  with_items:
+    - "{{ moira_logs }}/notifier"
+    - "{{ moira_worker_path }}"
+
+- name: Checkout Moira Notifier
+  git: repo={{ moira_notifier_repo }} dest={{ moira_notifier_path }} version={{ moira_notifier_commit }}
+  environment:
+    GOPATH: "{{ gopath }}"
+  ignore_errors: yes
+  
+- name: Moira Notifier create dependencies
+  command: make prepare
+  environment:
+    GOPATH: "{{ gopath }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gopath }}/bin"
+  args:
+    chdir: "{{ moira_notifier_path }}"
+
+- name: Stop Moira Notifier
+  service: name=moira-notifier state=stopped
+  ignore_errors: yes 
+  
+- name: Moira Notifier build
+  command: go install
+  environment:
+    GOPATH: "{{ gopath }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gopath }}/bin"
+  args:
+    chdir: "{{ moira_notifier_path }}/notifier/"
+
+- name: update systemd config
+  template: src=moira-notifier.service.j2 dest=/etc/systemd/system/moira-notifier.service
+  notify: update systemd
+
+- name: start and enable moira-notifier
+  service: name=moira-notifier state=running enabled=yes

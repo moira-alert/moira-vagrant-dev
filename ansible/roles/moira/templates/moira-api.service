@@ -1,0 +1,11 @@
+[Unit]
+Description=moira-api - REST-API service over http based on twisted python framework
+
+[Service]
+ExecStart=/usr/bin/moira-api -l {{ moira_logs }}/worker
+User=vagrant
+Group=vagrant
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

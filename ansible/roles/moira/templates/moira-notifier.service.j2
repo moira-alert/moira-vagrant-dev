@@ -1,0 +1,16 @@
+[Unit]
+Description=moira-notifier - event notifications for Moira
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart={{ gopath }}/bin/notifier --config=/etc/moira/config.yml
+User=vagrant
+Group=vagrant
+Restart=always
+TimeoutStopSec=30s
+LimitMEMLOCK=infinity
+LimitNOFILE=4096
+
+[Install]
+WantedBy=multi-user.target

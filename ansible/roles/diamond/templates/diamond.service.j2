@@ -1,0 +1,13 @@
+[Unit]
+Description=diamond - A system statistics collector for graphite
+
+[Service]
+ExecStart=/usr/bin/python /usr/bin/diamond --skip-fork --skip-pidfile
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-abort
+User=diamond
+Group=diamond
+LimitNOFILE=4048
+
+[Install]
+WantedBy=multi-user.target

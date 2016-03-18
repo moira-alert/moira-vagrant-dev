@@ -1,0 +1,11 @@
+- hosts: localhost
+  sudo: yes
+  roles:
+    - common
+    - golang
+    - moira
+
+- hosts: localhost
+  sudo: yes
+  roles:
+    - diamond

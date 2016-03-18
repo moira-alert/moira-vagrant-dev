@@ -1,0 +1,11 @@
+- name: start and enable firewalld 
+  service: name=firewalld state=started enabled=yes
+
+- name: allow access to http
+  firewalld: port=80/tcp state=enabled permanent=yes
+
+- name: allow access to redis
+  firewalld: port=6379/tcp state=enabled permanent=yes
+
+- name: restart firewalld
+  service: name=firewalld state=reloaded

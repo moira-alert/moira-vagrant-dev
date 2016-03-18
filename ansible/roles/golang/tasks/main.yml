@@ -1,0 +1,26 @@
+- name: GOROOT and GOPATH must be created 
+  file: path={{ item }} state=directory
+  with_items:
+    - "/usr/local/go{{ go_version }}"
+    - "{{ gopath }}"
+
+- name: Download tarball
+  get_url: url=http://golang.org/dl/{{ go_tarball }} dest={{ ansible_state_path }}/{{ go_tarball }} sha256sum={{ go_tarball_checksum }}
+  register: golang_install
+    
+- name: Extract tarball 
+  unarchive: src={{ ansible_state_path }}/{{ go_tarball }} dest=/usr/local/go{{ go_version }}
+  when: golang_install.changed
+
+- name: Swith version
+  file: src=/usr/local/go{{ go_version }}/go dest=/usr/local/go state=link
+  
+- name: Create symlinks for binaries 
+  file: src=/usr/local/go/bin/{{ item }} dest=/usr/bin/{{ item }} state=link
+  with_items:
+    - go
+    - godoc
+    - gofmt
+
+- name: Set GOPATH env for users
+  template: src=gopath.sh.j2 dest=/etc/profile.d/golang.sh mode=0644

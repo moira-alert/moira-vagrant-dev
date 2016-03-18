@@ -1,0 +1,9 @@
+- name: reload nginx
+  service: name=nginx state=reloaded
+
+- name: restart moira-cache
+  service: name=moira-cache state=reloaded
+
+- name: restart moira-notifier
+  service: name=moira-notifier state=reloaded
+

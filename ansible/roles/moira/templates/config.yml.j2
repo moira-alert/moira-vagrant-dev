@@ -1,0 +1,50 @@
+redis:
+  host: localhost
+  port: 6379
+
+worker:
+  log_dir: {{ moira_logs}}/worker
+
+api:
+  port: 8081
+  listen: '127.0.0.1'
+
+graphite:
+  uri: localhost:2003
+  prefix: DevOps.moira
+  interval: 60
+
+checker:
+  nodata_check_interval: 60
+  check_interval: 10
+
+front:
+  uri: http://localhost
+
+notifier:
+  log_file: {{ moira_logs}}/notifier/notifier.log
+  log_level: debug
+  log_color: false
+  sender_timeout: 10s0ms
+  resending_timeout: 24:00 # 24 hours
+  senders:
+    - type: mail
+      mail_smtp_host: smtp
+      mail_smtp_port: 25
+      mail_from: alert@moira
+      mail_insecure_tls: true
+    - type: slack
+      api_token: {{ slack_api_token }}
+    - type: pushover
+      api_token: {{ pushover_api_token }}
+    - type: telegram
+      api_token: {{ telegram_api_token }}
+#    - type: script
+#      name: mymail
+#      exec: /bin/echo 123
+
+cache:
+  log_file: {{ moira_logs}}/cache/cache.log
+  listen: ':2003'
+  retention-config: /etc/moira/cache/storage-schemas.conf
+  pid: /var/run/moira-cache.pid

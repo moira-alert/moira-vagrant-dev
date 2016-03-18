@@ -1,0 +1,12 @@
+[Unit]
+Description=Moira Web
+
+[Service]
+ExecStart=/usr/bin/npm start
+WorkingDirectory={{ moira_web_path }}
+User=vagrant
+Group=vagrant
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

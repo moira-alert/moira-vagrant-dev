@@ -1,0 +1,49 @@
+[server]
+handlers = diamond.handler.graphite.GraphiteHandler
+user = diamond
+group = diamond
+pid_file = /var/run/diamond.pid
+
+collectors_path = /usr/share/diamond/collectors/
+collectors_config_path = /etc/diamond/collectors/
+
+handlers_config_path = /etc/diamond/handlers/
+handlers_path = /usr/share/diamond/handlers/
+
+collectors_reload_interval = 3600
+
+[handlers]
+keys = rotated_file
+
+[[default]]
+[[ArchiveHandler]]
+log_file = /var/log/diamond/archive.log
+days = 7
+
+[collectors]
+
+[[default]]
+hostname_method = hostname_short
+path_prefix = {{ diamond_metrics_prefix }}.system
+interval = 60
+
+[loggers]
+keys = root
+
+[formatters]
+keys = default
+
+[logger_root]
+level = INFO
+handlers = rotated_file
+propagate = 1
+
+[handler_rotated_file]
+class = handlers.TimedRotatingFileHandler
+level = INFO
+formatter = default
+args = ('/var/log/diamond/diamond.log', 'midnight', 1, 7)
+
+[formatter_default]
+format = [%(asctime)s] [%(threadName)s] %(message)s
+datefmt =

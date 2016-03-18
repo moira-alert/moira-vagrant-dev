@@ -1,0 +1,42 @@
+- name: Moira Cache create directories
+  file: path={{ item }} state=directory recurse=yes owner=vagrant group=vagrant
+  with_items:
+    - "{{ moira_logs }}/cache"
+    - /etc/moira/cache
+
+- name: Checkout Moira Cache
+  git: repo={{ moira_cache_repo }} dest={{ moira_cache_path }} version={{ moira_cache_commit }}
+  environment:
+    GOPATH: "{{ gopath }}"
+  ignore_errors: yes
+  
+- name: Moira Cache create dependencies
+  command: make prepare
+  environment:
+    GOPATH: "{{ gopath }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gopath }}/bin"
+  args:
+    chdir: "{{ moira_cache_path }}"
+
+- name: Stop Moira Cache
+  service: name=moira-cache state=stopped
+  ignore_errors: yes
+
+- name: Moira Cache build
+  command: go install
+  environment:
+    GOPATH: "{{ gopath }}"
+    PATH: "{{ ansible_env.PATH }}:{{ gopath }}/bin"
+  args:
+    chdir: "{{ moira_cache_path }}"
+
+- name: update systemd config
+  template: src=moira-cache.service.j2 dest=/etc/systemd/system/moira-cache.service
+  notify: update systemd
+
+- name: update retentions config
+  copy: src=storage-schemas.conf dest=/etc/moira/cache/storage-schemas.conf
+  notify: restart moira-cache
+
+- name: moira-cache must be running and enabled
+  service: name=moira-cache state=running enabled=yes

@@ -1,0 +1,7 @@
+enabled = true
+path_prefix = {{ diamond_metrics_prefix }}.system
+path = network
+metrics_whitelist = ".*(rx|tx)_(bit|packets|drop|errors)$"
+{% if diamond_network_interfaces is defined %}
+interfaces={{  diamond_network_interfaces  }}
+{% endif %}

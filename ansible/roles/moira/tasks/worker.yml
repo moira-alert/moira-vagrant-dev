@@ -1,0 +1,38 @@
+- name: Install worker dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - python-dateutil
+    - python-devel
+    - openssl-devel
+
+- name: Create worker directories
+  file: path={{ item }} state=directory recurse=yes owner=vagrant group=vagrant
+  with_items:
+    - "{{ moira_worker_path }}" 
+    - /var/run/moira
+    - "{{ moira_logs }}/worker"
+
+- name: Checkout Worker 
+  git: repo={{ moira_worker_repo }} dest={{ moira_worker_path }} version={{ moira_worker_commit }}
+  ignore_errors: yes
+  
+- name: Install Worker
+  shell: /usr/bin/python setup.py install
+  args:
+    chdir: "{{ moira_worker_path }}"
+
+- name: fix .python-eggs
+  file: path=/home/vagrant/.python-eggs state=directory mode=750 owner=vagrant group=vagrant
+
+- name: Install Worker services
+  template: src={{ item }}.service dest=/etc/systemd/system/{{ item }}.service
+  with_items:
+    - moira-api
+    - moira-checker
+  notify: update systemd
+
+- name: Start and enable Worker services
+  service: name={{ item }} state=running enabled=true
+  with_items:
+    - moira-api
+    - moira-checker

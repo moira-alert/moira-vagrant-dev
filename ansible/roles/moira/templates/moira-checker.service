@@ -1,0 +1,11 @@
+[Unit]
+Description=moira-checker - graphite metric checker service based on twisted python framework
+
+[Service]
+ExecStart=/usr/bin/moira-checker -l {{ moira_logs }}/worker
+User=vagrant
+Group=vagrant
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
