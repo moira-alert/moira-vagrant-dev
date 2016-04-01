@@ -20,7 +20,7 @@
     - python-pip
 
 - name: install dependensies for build packages (it is slow)
-  apt: name={{ item }} state=present
+  yum: name={{ item }} state=present
   with_items:
      - ruby
      - ruby-devel
