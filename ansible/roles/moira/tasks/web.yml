@@ -9,7 +9,7 @@
   ignore_errors: yes 
 
 - name: Checkout Moira Web
-  git: repo={{ moira_web_repo }} dest={{ moira_web_path }} version={{ moira_web_commit }}
+  git: repo={{ moira_web_repo }} dest={{ moira_web_path }} version={{ moira_web_commit }} force={{ overwrite_local_modifications }}
   ignore_errors: yes
 
 - name: Create symlink for node_modules
@@ -17,7 +17,7 @@
 
 - name: Moira Web install dependencies (it is slow)
   npm: path={{ moira_web_path }} state=present
-  sudo_user: vagrant
+  become_user: vagrant
 
 - name: nginx config
   template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/moira.conf

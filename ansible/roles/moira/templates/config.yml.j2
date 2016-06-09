@@ -29,16 +29,16 @@ notifier:
   resending_timeout: 24:00 # 24 hours
   senders:
     - type: mail
-      mail_smtp_host: smtp
-      mail_smtp_port: 25
+      smtp_host: localhost
+      smtp_port: 25
       mail_from: alert@moira
-      mail_insecure_tls: true
-    - type: slack
-      api_token: {{ slack_api_token }}
-    - type: pushover
-      api_token: {{ pushover_api_token }}
-    - type: telegram
-      api_token: {{ telegram_api_token }}
+      insecure_tls: true
+#    - type: slack
+#      api_token: {{ slack_api_token }}
+#    - type: pushover
+#      api_token: {{ pushover_api_token }}
+#    - type: telegram
+#      api_token: {{ telegram_api_token }}
 #    - type: script
 #      name: mymail
 #      exec: /bin/echo 123
@@ -46,5 +46,5 @@ notifier:
 cache:
   log_file: {{ moira_logs}}/cache/cache.log
   listen: ':2003'
-  retention-config: /etc/moira/cache/storage-schemas.conf
-  pid: /var/run/moira-cache.pid
+  retention-config: /etc/moira/storage-schemas.conf
+  pid: /var/run/moira/moira-cache.pid

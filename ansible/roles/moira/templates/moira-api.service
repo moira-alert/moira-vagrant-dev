@@ -1,5 +1,6 @@
 [Unit]
 Description=moira-api - REST-API service over http based on twisted python framework
+After=network-online.target
 
 [Service]
 ExecStart=/usr/bin/moira-api -l {{ moira_logs }}/worker

@@ -5,7 +5,7 @@
     - "{{ moira_worker_path }}"
 
 - name: Checkout Moira Notifier
-  git: repo={{ moira_notifier_repo }} dest={{ moira_notifier_path }} version={{ moira_notifier_commit }}
+  git: repo={{ moira_notifier_repo }} dest={{ moira_notifier_path }} version={{ moira_notifier_commit }} force={{ overwrite_local_modifications }}
   environment:
     GOPATH: "{{ gopath }}"
   ignore_errors: yes

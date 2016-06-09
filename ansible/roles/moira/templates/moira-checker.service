@@ -1,5 +1,6 @@
 [Unit]
 Description=moira-checker - graphite metric checker service based on twisted python framework
+After=network-online.target
 
 [Service]
 ExecStart=/usr/bin/moira-checker -l {{ moira_logs }}/worker

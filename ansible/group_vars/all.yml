@@ -5,10 +5,10 @@ gopath: /vagrant/project/gocode
 build_packages: False
 
 # https://golang.org/dl/
-go_version: 1.5.3
-go_tarball_checksum: 43afe0c5017e502630b1aea4d44b8a7f059bf60d7f29dfd58db454d4e4e0ae53
-#go_version: 1.6
-#go_tarball_checksum: 5470eac05d273c74ff8bac7bef5bad0b5abbd1c4052efbdbc8db45332e836b0b
+#go_version: 1.5.3
+#go_tarball_checksum: 43afe0c5017e502630b1aea4d44b8a7f059bf60d7f29dfd58db454d4e4e0ae53
+go_version: 1.6
+go_tarball_checksum: 5470eac05d273c74ff8bac7bef5bad0b5abbd1c4052efbdbc8db45332e836b0b
 go_tarball: "go{{ go_version }}.linux-amd64.tar.gz"
 
 moira_notifier_repo: https://github.com/moira-alert/notifier.git
@@ -25,6 +25,8 @@ moira_notifier_path: "{{ gopath }}/src/github.com/moira-alert/notifier/"
 moira_cache_path: "{{ gopath }}/src/github.com/moira-alert/cache/"
 moira_web_path: /vagrant/project/moira-web
 moira_worker_path: /vagrant/project/moira-worker
+
+overwrite_local_modifications: no
 
 moira_logs: /vagrant/project/log
 
