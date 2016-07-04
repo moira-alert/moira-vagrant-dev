@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ansible-playbook -i "localhost," -c local ansible/moira.yml
+ansible-playbook -i inventory ansible/moira.yml

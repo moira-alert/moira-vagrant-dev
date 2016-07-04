@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: app
   become: yes
   roles:
     - common
