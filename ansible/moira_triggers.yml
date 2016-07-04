@@ -1,6 +1,6 @@
-- hosts: localhost
+- hosts: app
   become: yes
-  tasks: 
+  tasks:
     - name: requests must be installed
       pip: name=requests state=present
 
@@ -14,7 +14,7 @@
         - Moira
         - Normal
 
-    - name: Low Disk Space 
+    - name: Low Disk Space
       moira_trigger:
         url: "http://localhost:8081"
         name: "Low Disk Space"
@@ -25,7 +25,7 @@
         - Moira
         - Normal
 
-    - name: The machine was rebooted 
+    - name: The machine was rebooted
       moira_trigger:
         url: "http://localhost:8081"
         name: The machine was rebooted
