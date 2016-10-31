@@ -6,9 +6,6 @@
 - name: install EPEL repository config
   yum: name=epel-release state=present 
 
-- name: download Nodesource repository 
-  yum: name=https://rpm.nodesource.com/pub_4.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm state=present validate_certs=False 
-
 - name: Install dependensies
   yum: name={{ item }} state=present
   with_items:
