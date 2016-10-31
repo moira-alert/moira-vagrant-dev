@@ -10,6 +10,7 @@
   yum: name={{ item }} state=present
   with_items:
     - tmux
+    - nano
     - git
     - redis
     - nginx
