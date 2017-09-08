@@ -20,7 +20,7 @@
   environment:
     GOPATH: "{{ gopath }}"
   ignore_errors: yes
-  
+
 - name: Moira Cache create dependencies
   command: make prepare
   environment:
@@ -42,4 +42,4 @@
     chdir: "{{ moira_cache_path }}"
 
 - name: moira-cache must be running and enabled
-  service: name=moira-cache state=running enabled=yes
+  service: name=moira-cache state=started enabled=yes
