@@ -4,9 +4,9 @@
   file: path={{ ansible_state_path }} state=directory
 
 - name: install EPEL repository config
-  yum: name=epel-release state=present 
+  yum: name=epel-release state=present
 
-- name: Install dependensies
+- name: Install dependencies
   yum: name={{ item }} state=present
   with_items:
     - tmux
@@ -14,16 +14,18 @@
     - git
     - redis
     - nginx
-    - nodejs
     - python-pip
 
-- name: install dependensies for build packages (it is slow)
+- name: install nodejs from CR repository
+  yum: name=nodejs state=present enablerepo=cr
+
+- name: install dependencies for build packages (it is slow)
   yum: name={{ item }} state=present
   with_items:
      - ruby
      - ruby-devel
      - rpmdevtools
-  when: build_packages|bool 
+  when: build_packages|bool
 
 - name: Install fpm
   gem: name=fpm state=present user_install=no

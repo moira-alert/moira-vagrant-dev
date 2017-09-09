@@ -6,7 +6,7 @@
 
 - name: Stop Moira Web
   service: name=moira-web state=stopped
-  ignore_errors: yes 
+  ignore_errors: yes
 
 - name: Checkout Moira Web
   git: repo={{ moira_web_repo }} dest={{ moira_web_path }} version={{ moira_web_commit }} force={{ overwrite_local_modifications }}
@@ -31,4 +31,4 @@
   notify: update systemd
 
 - name: Start and enable Moira Web service
-  service: name=moira-web state=running enabled=true
+  service: name=moira-web state=started enabled=true

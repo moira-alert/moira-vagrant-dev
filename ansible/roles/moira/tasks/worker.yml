@@ -8,14 +8,14 @@
 - name: Create worker directories
   file: path={{ item }} state=directory recurse=yes owner=vagrant group=vagrant
   with_items:
-    - "{{ moira_worker_path }}" 
+    - "{{ moira_worker_path }}"
     - /var/run/moira
     - "{{ moira_logs }}/worker"
 
-- name: Checkout Worker 
+- name: Checkout Worker
   git: repo={{ moira_worker_repo }} dest={{ moira_worker_path }} version={{ moira_worker_commit }} force={{ overwrite_local_modifications }}
   ignore_errors: yes
-  
+
 - name: Install Worker
   shell: /usr/bin/python setup.py install
   args:
@@ -32,7 +32,7 @@
   notify: update systemd
 
 - name: Start and enable Worker services
-  service: name={{ item }} state=running enabled=true
+  service: name={{ item }} state=started enabled=true
   with_items:
     - moira-api
     - moira-checker

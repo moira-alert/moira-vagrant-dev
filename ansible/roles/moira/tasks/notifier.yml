@@ -9,7 +9,7 @@
   environment:
     GOPATH: "{{ gopath }}"
   ignore_errors: yes
-  
+
 - name: Moira Notifier create dependencies
   command: make prepare
   environment:
@@ -20,8 +20,8 @@
 
 - name: Stop Moira Notifier
   service: name=moira-notifier state=stopped
-  ignore_errors: yes 
-  
+  ignore_errors: yes
+
 - name: Moira Notifier build
   command: go install
   environment:
@@ -35,4 +35,4 @@
   notify: update systemd
 
 - name: start and enable moira-notifier
-  service: name=moira-notifier state=running enabled=yes
+  service: name=moira-notifier state=started enabled=yes
