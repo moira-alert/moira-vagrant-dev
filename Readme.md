@@ -1,3 +1,5 @@
+# THIS REPOSITORY IS NO LONGER MAINTAINED
+
 # Vagrant image for Moira development
 You can use this vagrant image for quickly setup development environment.
 
